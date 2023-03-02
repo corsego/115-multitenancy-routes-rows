@@ -1,6 +1,4 @@
-class MembersController < ApplicationController
-  before_action :set_current_tenant
-
+class MembersController < AuthorizedController
   def index
     @member = @current_tenant.members
   end
@@ -13,13 +11,7 @@ class MembersController < ApplicationController
     return redirect_to tenant_members_path(@current_tenant), alert: 'Email invalid' unless user.valid?
 
     user.members.find_or_create_by(tenant: @current_tenant, roles: {admin: false, editor: true})
-    # binding.b
+    # TODO: Email that user has been added to this workspace
     redirect_to tenant_members_path(@current_tenant), notice: "#{email} invited!"
-  end
-
-  private
-
-  def set_current_tenant
-    @current_tenant = Tenant.find(params[:tenant_id])
   end
 end
