@@ -8,3 +8,5 @@
 
   <%= button_to "Destroy this tenant", @tenant, method: :delete %>
 </div>
+
+<%= link_to 'Members', tenant_members_path(@tenant) %>
